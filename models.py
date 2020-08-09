@@ -82,9 +82,6 @@ class Book_Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books_book.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('books_author.id'))
-    # book = db.relationship('Book', foreign_keys=[book_id])
-    # book = db.relationship('Book', primaryjoin="Book_Author.book_id == Book.id")
-    # author = db.relationship('Author',foreign_keys=[author_id])
 
     def __init__(self, book_id, author_id):
         self.book_id = book_id
@@ -97,8 +94,6 @@ class Book_Author(db.Model):
         return {
             'book_id': self.book_id, 
             'author_id': self.author_id
-            # ,
-            # 'book': self.book.title
         }
 
 class Language(db.Model):
@@ -133,9 +128,6 @@ class Book_Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books_book.id'))
     language_id = db.Column(db.Integer, db.ForeignKey('books_language.id'))
-    # book = db.relationship('Book', foreign_keys=[book_id])
-    # book = db.relationship('Book', primaryjoin="Book_Author.book_id == Book.id")
-    # author = db.relationship('Author',foreign_keys=[author_id])
 
     def __init__(self, book_id, language_id):
         self.book_id = book_id
@@ -148,8 +140,6 @@ class Book_Language(db.Model):
         return {
             'book_id': self.book_id, 
             'language_id': self.language_id
-            # ,
-            # 'book': self.book.title
         }
 
 class Subject(db.Model):
@@ -184,9 +174,6 @@ class Book_Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books_book.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('books_subject.id'))
-    # book = db.relationship('Book', foreign_keys=[book_id])
-    # book = db.relationship('Book', primaryjoin="Book_Author.book_id == Book.id")
-    # author = db.relationship('Author',foreign_keys=[author_id])
 
     def __init__(self, book_id, subject_id):
         self.book_id = book_id
@@ -199,8 +186,6 @@ class Book_Subject(db.Model):
         return {
             'book_id': self.book_id, 
             'subject_id': self.subject_id
-            # ,
-            # 'book': self.book.title
         }
 
 class BookShelf(db.Model):
@@ -235,9 +220,6 @@ class Book_BookShelf(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books_book.id'))
     bookshelf_id = db.Column(db.Integer, db.ForeignKey('books_bookshelf.id'))
-    # book = db.relationship('Book', foreign_keys=[book_id])
-    # book = db.relationship('Book', primaryjoin="Book_Author.book_id == Book.id")
-    # author = db.relationship('Author',foreign_keys=[author_id])
 
     def __init__(self, book_id, bookshelf_id):
         self.book_id = book_id
@@ -250,8 +232,6 @@ class Book_BookShelf(db.Model):
         return {
             'book_id': self.book_id, 
             'bookshelf_id': self.bookshelf_id
-            # ,
-            # 'book': self.book.title
         }
 
 class Book_Format(db.Model):

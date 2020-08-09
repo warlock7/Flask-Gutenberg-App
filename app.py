@@ -13,35 +13,40 @@ db = SQLAlchemy(app)
 
 from models import *
 
+# To get all books data with limit 1, its for testing purpose
 @app.route('/allbooks', methods=['POST', 'GET'])
 def get_all_books():   
     books=Book.query.order_by(Book.download_count.desc().nullslast()).limit(1).all()
     return  jsonify([e.serializeBookWithDetails() for e in books])
 
+# To get all authors data
 @app.route('/authors')
 def get_all_authors():
     author=Author.query.limit(1).all()
     return  jsonify([e.serializeAuthorWithDetails() for e in author])
 
+# To get all book_author data
 @app.route('/book_authors')
 def get_all_books_author():
     book_author=Book_Author.query.limit(10).all()
     return  jsonify([e.serialize() for e in book_author])
 
+# To get all languages
 @app.route('/languages')
 def get_all_languages():
     languages=Language.query.limit(1).all()
     return  jsonify([e.serializeLanguageWithDetails() for e in languages])
 
+# To get all format
 @app.route('/format')
 def get_all_format():
     book_format=Book_Format.query.limit(5).all()
     return  jsonify([e.serialize() for e in book_format])
 
+
+# To get the books with filters and paginated
 @app.route('/books', methods=['POST', 'GET'])
 def view():
-    
-
 	return jsonify(get_paginated_list(
 		Book, 
 		'/books', 
@@ -50,7 +55,7 @@ def view():
 	))
 
 def get_paginated_list(klass, url, start, limit):
-    # check if page exists
+    # check if request method
     if request.method == 'POST':
         data = request.get_json()
         if data:
@@ -61,6 +66,7 @@ def get_paginated_list(klass, url, start, limit):
         else:
             return jsonify({"message":"Bad request"}), 400
         
+        # Building the query statement based on the request json
         query = klass.query
 
         join_statement = []
@@ -85,8 +91,11 @@ def get_paginated_list(klass, url, start, limit):
 
         results = query.join(*join_statement).options(*options_statement).filter(and_(*conditions)).order_by(klass.download_count.desc().nullslast()).all()
     else:
+        # Request method is GET, return full data without any filtering
         results = klass.query.order_by(klass.download_count.desc().nullslast()).all()
     count = len(results)
+    if count == 0:
+        return {'message': 'Requested data not found'}
     start = int(start)
     limit = int(limit)
     if (count < start):
